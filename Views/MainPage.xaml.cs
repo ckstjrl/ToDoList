@@ -23,13 +23,6 @@ namespace ToDoList.Views
             // 2) DB가 바뀌면 자동 저장 (추가/삭제)
             TodoItems.CollectionChanged += TodoItems_CollectionChanged;
 
-            // 테스트 데이터: 최초 1회만(저장 파일 없을 때만)
-            if (TodoItems.Count == 0)
-            {
-                TodoItems.Add(new TodoItem { Id = 1, Title = "Git 협업 연습", Memo = "CRUD 연결 테스트" });
-                TodoItems.Add(new TodoItem { Id = 2, Title = "WPF 메인 화면 만들기" });
-            }
-
             DataContext = this;
         }
 
