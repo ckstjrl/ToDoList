@@ -13,21 +13,25 @@ namespace ToDoList.Views
         {
             InitializeComponent();
 
-            TodoItems = new ObservableCollection<TodoItem>();
+            // 공용 DB를 메인 리스트에 바인딩
+            TodoItems = TodoItem.Database;
 
-            // 테스트 데이터
-            TodoItems.Add(new TodoItem
+            // 테스트 데이터: 최초 1회만
+            if (TodoItems.Count == 0)
             {
-                Id = 1,
-                Title = "Git 협업 연습",
-                Memo = "CRUD 연결 테스트"
-            });
+                TodoItems.Add(new TodoItem
+                {
+                    Id = 1,
+                    Title = "Git 협업 연습",
+                    Memo = "CRUD 연결 테스트"
+                });
 
-            TodoItems.Add(new TodoItem
-            {
-                Id = 2,
-                Title = "WPF 메인 화면 만들기"
-            });
+                TodoItems.Add(new TodoItem
+                {
+                    Id = 2,
+                    Title = "WPF 메인 화면 만들기"
+                });
+            }
 
             DataContext = this;
         }
@@ -35,18 +39,22 @@ namespace ToDoList.Views
         // 카드 클릭 → READ 창
         private void Todo_Click(object sender, RoutedEventArgs e)
         {
-            Button btn = sender as Button;
-            TodoItem todo = btn.DataContext as TodoItem;
-
-            var readWindow = new ReadWindow(todo);
-            readWindow.Show();
+            if (sender is Button btn && btn.DataContext is TodoItem todo)
+            {
+                var readWindow = new ReadWindow(todo);
+                readWindow.Owner = Window.GetWindow(this);
+                readWindow.Show();
+            }
         }
 
         // Add 버튼 → CREATE 창
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            var createWindow = new CreateWindow();
-            createWindow.Show();
+            var createWindow = new CreateTodoWindow();
+            createWindow.Owner = Window.GetWindow(this);
+
+            // ShowDialog : 저장 전까지 메인 잠금
+            createWindow.ShowDialog();
         }
     }
 }
