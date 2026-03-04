@@ -41,9 +41,9 @@ namespace ToDoList.Views
         {
             if (sender is Button btn && btn.DataContext is TodoItem todo)
             {
-                var readWindow = new ReadWindow(todo);
+                var readWindow = new ReadTodoWindow(todo);
                 readWindow.Owner = Window.GetWindow(this);
-                readWindow.Show();
+                readWindow.ShowDialog(); // Show()도 가능하지만 보통 Read는 Dialog가 자연스럽습니다
             }
         }
 
