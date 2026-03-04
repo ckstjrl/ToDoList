@@ -9,7 +9,10 @@ namespace ToDoList.Views
         public ReadTodoWindow(TodoItem item)
         {
             InitializeComponent();
-            DataContext = new ReadViewModel(item);
+
+            var vm = new ReadViewModel(item);
+            vm.CloseAction = Close;   // 삭제 후 창 닫기
+            DataContext = vm;
         }
     }
 }
